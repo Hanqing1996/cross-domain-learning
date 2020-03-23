@@ -19,7 +19,18 @@ https://www.zhihu.com 和 https://www.zhihu.com/explore 同源（只是 path 不
 #### 同源策略
 > 不同源的页面之间，浏览器不许互相访问数据
 
-比如 zhq.com 访问不到 qq.com 的 friends.json 数据（浏览器对 response 做了拦截，注意请求是可以发送的，只是 response 拿不到）
+> 比如 zhq.com 访问不到 qq.com 的 friends.json 数据（浏览器对 response 做了拦截，注意请求是可以发送的，只是 response 拿不到）
+```
+// qq-com 目录下
+node server.js 8888
+
+// zhq-com 目录下
+node server.js 8000
+```
+```
+// 浏览器
+http://localhost:8000/index.html
+```
 ---
 ## 解决跨域的方案
 #### CORS(Cross-Origin Resource Sharing) 

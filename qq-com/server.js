@@ -31,6 +31,14 @@ var server = http.createServer(function(request, response){
         response.setHeader('Content-Type', 'text/css;charset=utf-8')
         response.write(fs.readFileSync('./public/qq.js'))
         response.end()
+    } else if(path === '/friends.js'){
+        response.statusCode = 200
+        response.setHeader('Content-Type', 'text/javascript;charset=utf-8')
+        const string=fs.readFileSync('./public/friends.js').toString()
+        const data=fs.readFileSync('./public/friends.json').toString()
+        const string2=string.replace('{{data}}',data)
+        response.write(string2) // write 的内容将会被填入 zhq-com 的 index.html 的 script 中
+        response.end()
     } else if(path === '/friends.json'){
         response.statusCode = 200
         response.setHeader('Content-Type', 'text/css;charset=utf-8')
