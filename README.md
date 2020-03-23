@@ -65,6 +65,21 @@ if(path === '/friends.json'){
 // 不属于跨域，因为浏览器解析HTML代码时，原生具有src属性的标签，浏览器都赋予其HTTP请求的能力，而且不受跨域限制
 <script src='http://localhost:8888/friends.js'></script>
 ```
+
+#### script.onload
+* script 标签的 onload 事件都是在外部 js 文件被加载完成并执行完成后才被触发的。
+* 在 JSONP 中，我们需要在 onload 中消除为了获取数据而添加的 script
+```
+// zhq.js
+const script=document.createElement('script')
+script.src=`http://localhost:8888/friends.js?functionName=${random}`
+document.body.appendChild(script)
+script.onload=()=>{
+    script.remove()
+}
+```
+
+
 #### JSONP
 * JSONP 和 JSON 没有关系
 * IE 不支持 CORS,所以我们需要能兼容 IE 的 JSONP
