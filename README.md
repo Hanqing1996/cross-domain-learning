@@ -1,3 +1,9 @@
+#### 复现端口号
+``` 
+http://localhost:8000   qq.com
+http://localhost:8888   zhq.com
+```
+
 #### 源
 源=协议+域名+端口号
 
@@ -68,3 +74,19 @@ if(path === '/friends.json'){
 3. 由于 script 的 scr 不受限制，qq.js 的内容顺利在浏览器中执行，于是我们在 zhq.com 的页面获取到了 qq.com 的后台数据
 4. 在实际应用中，往往会在 zhq.com 本身的 js（zhq.js） 中写入一个回调函数，然后由 qq.js 触发该函数。
 
+#### referer 检查
+对于 JSONP，我们需要在服务端进行 referer 检查，以过滤恶意获取数据的请求
+```
+// qq.com 的 server.js
+if(path === '/friends.js'){
+    if(request.headers['referer'].indexOf('http://localhost:8000')===0){
+        response.statusCode = 200
+        ......
+        response.write(string2)
+    } else {
+        response.statusCode = 404
+        response.write('滚!!!')
+    }
+    response.end()
+}
+```

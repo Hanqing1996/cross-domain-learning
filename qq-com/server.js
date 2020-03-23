@@ -31,14 +31,21 @@ var server = http.createServer(function(request, response){
         response.setHeader('Content-Type', 'text/css;charset=utf-8')
         response.write(fs.readFileSync('./public/qq.js'))
         response.end()
+        // JSONP
     } else if(path === '/friends.js'){
-        response.statusCode = 200
-        response.setHeader('Content-Type', 'text/javascript;charset=utf-8')
-        const string=fs.readFileSync('./public/friends.js').toString()
-        const data=fs.readFileSync('./public/friends.json').toString()
-        const string2=string.replace('{{data}}',data)
-        response.write(string2)
+        if(request.headers['referer'].indexOf('http://localhost:8000')===0){
+            response.statusCode = 200
+            response.setHeader('Content-Type', 'text/javascript;charset=utf-8')
+            const string=fs.readFileSync('./public/friends.js').toString()
+            const data=fs.readFileSync('./public/friends.json').toString()
+            const string2=string.replace('{{data}}',data)
+            response.write(string2)
+        } else {
+            response.statusCode = 404
+            response.write('滚!!!')
+        }
         response.end()
+        // CORS
     } else if(path === '/friends.json'){
         response.statusCode = 200
         response.setHeader('Content-Type', 'text/css;charset=utf-8')
