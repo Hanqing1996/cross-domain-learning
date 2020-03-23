@@ -7,16 +7,24 @@ http://localhost:8888   zhq.com
 #### 源
 源=协议+域名+端口号
 
-#### 同源
+#### 浏览器的同源策略
 * url 的组成
 ```
 Schema://host:port/path?query#hash
 ```
-两个 url 的源相同，就说他们是同源的
+* 两个 url 的源相同，就说他们是同源的
 ```
 https://www.baidu.com 和 https://baidu.com 不同源
 https://www.zhihu.com 和 https://www.zhihu.com/explore 同源（只是 path 不同）
 ```
+* 通常浏览器允许进行跨域写操作（Cross-origin writes）
+> 如链接，重定向；
+* 通常浏览器允许跨域资源/脚本嵌入（Cross-origin embedding）
+> 如 img、script 标签；
+* 通常浏览器不允许跨域读操作（Cross-origin reads）
+
+
+
 #### referer
 不同页面发送的请求在后端服务器看来几乎没有区别，除了 referer 不同。
 * https://www.baidu.com/
@@ -105,3 +113,17 @@ if(path === '/friends.js'){
     response.end()
 }
 ```
+
+#### 【面试】 JSONP 
+* JSONP 是什么
+> 由于当前浏览器不支持 CORS,我们必须寻找另一种方式来实现跨域。于是我们请求一个 js 文件，该 js 文件会执行一个回调，传回给我们所需的数据。
+* 上面说的"回调"的具体函数明是什么?
+> 可以随机生成的随机数，作为 callback 的参数传给后台，然后后台将 callback 返回给我们并执行
+* JSONP 的优点是什么?
+1. 可以跨域
+2. 能兼容IE
+* JSONP 的缺点是什么?
+1. 不能像 CORS 那样精确地返回状态码
+2. script 只能发送 GET 请求，（即：JSONP 不支持 POST）
+
+
