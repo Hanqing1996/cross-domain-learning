@@ -37,7 +37,7 @@ var server = http.createServer(function(request, response){
         const string=fs.readFileSync('./public/friends.js').toString()
         const data=fs.readFileSync('./public/friends.json').toString()
         const string2=string.replace('{{data}}',data)
-        response.write(string2) // write 的内容将会被填入 zhq-com 的 index.html 的 script 中
+        response.write(string2)
         response.end()
     } else if(path === '/friends.json'){
         response.statusCode = 200

@@ -45,6 +45,26 @@ if(path === '/friends.json'){
     response.end()
 }
 ```
+
+#### <script src='http://localhost:8888/friends.js'></script> 是什么意思
+1. 相当于在浏览器的 url 栏中输入 http://localhost:8888/friends.js，获取到的 js 内容将在浏览器中执行。
+2. 注意区别
+``` 
+// 跨域，浏览器不允许（<script src='./zhq.js'></script> 同理）
+<script>
+    request.open('GET','http://localhost:8000/friends.json')
+</script>
+```
+``` 
+// 不属于跨域，因为浏览器解析HTML代码时，原生具有src属性的标签，浏览器都赋予其HTTP请求的能力，而且不受跨域限制
+<script src='http://localhost:8888/friends.js'></script>
+```
 #### JSONP
-1. JSONP 和 JSON 没有关系
-2. IE 不支持 CORS,所以我们需要能兼容 IE 的 JSONP
+* JSONP 和 JSON 没有关系
+* IE 不支持 CORS,所以我们需要能兼容 IE 的 JSONP
+* 实现流程（目的：zhq.com 想访问 qq.com 的 friends.json 数据）
+1. zhq.com 利用 script 的 src 调用 qq.com 的 friend.js
+2. qq.com 的服务器端有事先设置，当 path 为 friend.js，会将所需数据填充到 qq.js 中
+3. 由于 script 的 scr 不受限制，qq.js 的内容顺利在浏览器中执行，于是我们在 zhq.com 的页面获取到了 qq.com 的后台数据
+4. 在实际应用中，往往会在 zhq.com 本身的 js（zhq.js） 中写入一个回调函数，然后由 qq.js 触发该函数。
+
