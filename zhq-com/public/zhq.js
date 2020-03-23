@@ -1,11 +1,26 @@
-const random=Math.random()
-console.log(random);
-window[random]=(data)=>{
-    console.log(data);
+function jsonp(url) {
+    return new Promise((resolve,reject)=>{
+        const random=Math.random()
+        window[random]=(data)=>{
+            resolve(data)
+        }
+        const script=document.createElement('script')
+        script.src=`${url}?callback=${random}`
+        document.body.appendChild(script)
+        script.onload=()=>{
+            script.remove()
+        }
+        script.onerror=()=>{
+            reject()
+        }
+    })
 }
-const script=document.createElement('script')
-script.src=`http://localhost:8888/friends.js?functionName=${random}`
-document.body.appendChild(script)
-script.onload=()=>{
-    script.remove()
-}
+
+jsonp('http://localhost:8888/friends.js')
+    .then((data)=>{
+        console.log(data)
+    })
+
+
+
+

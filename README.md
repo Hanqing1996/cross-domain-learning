@@ -78,7 +78,7 @@ script.onload=()=>{
     script.remove()
 }
 ```
-
+* onerror：脚本文件加载失败时触发
 
 #### JSONP
 * JSONP 和 JSON 没有关系
